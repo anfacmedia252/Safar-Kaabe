@@ -29,9 +29,9 @@ function postgresPlaceholders(sql) {
   }
   return result
     .replace(/\bAS\s+([A-Za-z][A-Za-z0-9_]*)/g, (match, alias) =>
-      alias !== alias.toLowerCase() ? `AS "${alias}"` : match)
+      /[a-z][A-Z]/.test(alias) ? `AS "${alias}"` : match)
     .replace(/\bCOLLATE\s+NOCASE\b/gi, '')
-    .replace(/\bdate\s*\(\s*'now'\s*\)/gi, 'CURRENT_DATE')
+    .replace(/\bdate\s*\(\s*'now'\s*\)/gi, 'CURRENT_DATE::TEXT')
     .replace(/\browid\b/gi, 'id');
 }
 
